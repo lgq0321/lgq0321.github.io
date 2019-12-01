@@ -13,9 +13,7 @@
 
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># python安装</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">rpm -ivh --nodeps python-devel-2.6.6-64.el6.x86_64.rpm</span></pre></td></tr><tr><td class="code"><pre><span class="line">rpm -ivh --nodeps python-iniparse-0.3.1-2.1.el6.noarch.rpm</span></pre></td></tr><tr><td class="code"><pre><span class="line">rpm -ivh --nodeps python-libs-2.6.6-64.el6.x86_64.rpm</span></pre></td></tr><tr><td class="code"><pre><span class="line">rpm -ivh --nodeps python-pycurl-7.19.0-9.el6.x86_64.rpm</span></pre></td></tr><tr><td class="code"><pre><span class="line">rpm -ivh --nodeps python-urlgrabber-3.9.1-11.el6.noarch.rpm</span></pre></td></tr><tr><td class="code"><pre><span class="line">rpm -ivh --nodeps rpm-python-4.8.0-55.el6.x86_64.rpm</span></pre></td></tr><tr><td class="code"><pre><span class="line"><span class="comment"># yum安装</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">rpm -ivh --nodeps yum-3.2.29-73.el6.centos.noarch.rpm</span></pre></td></tr><tr><td class="code"><pre><span class="line">rpm -ivh --nodeps yum-metadata-parser-1.1.2-16.el6.x86_64.rpm</span></pre></td></tr><tr><td class="code"><pre><span class="line">rpm -ivh --nodeps yum-plugin-fastestmirror-1.1.30-37.el6.noarch.rpm</span></pre></td></tr></table></figure>
 <h2 id="6-最后验证一下"><a href="#6-最后验证一下" class="headerlink" title="6.最后验证一下"></a>6.最后验证一下</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python <span class="comment">#验证python</span></span></pre></td></tr><tr><td class="code"><pre><span class="line">yum <span class="comment">#验证yum</span></span></pre></td></tr></table></figure>
-<p>date: 2019-11-30 19:03:43<br>tags: 人生不可能一帆风顺，不风顺的时候说明你必须要需学习了。</p>
-<hr>
-]]></content>
+<h2 id="date-2019-11-30-19-03-43"><a href="#date-2019-11-30-19-03-43" class="headerlink" title="date: 2019-11-30 19:03:43"></a>date: 2019-11-30 19:03:43</h2>]]></content>
       <categories>
         <category>linux</category>
       </categories>
