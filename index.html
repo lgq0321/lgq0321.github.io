@@ -222,7 +222,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/12/04/Mysql5.6%E7%BA%A75.7%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">Mysql5.6级5.7注意事项。</a>
+            <a href="/2019/12/04/Mysql5.6%E7%BA%A75.7%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" class="post-title-link" itemprop="url">Mysql5.6及5.7注意事项。</a>
         </h1>
 
         <div class="post-meta">
@@ -233,7 +233,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-12-04 12:09:00 / 修改时间：12:24:35" itemprop="dateCreated datePublished" datetime="2019-12-04T12:09:00+08:00">2019-12-04</time>
+              <time title="创建时间：2019-12-04 12:09:00 / 修改时间：12:28:55" itemprop="dateCreated datePublished" datetime="2019-12-04T12:09:00+08:00">2019-12-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>因以前使用的mysql版本都是5.7以下的，导致sql分组出现错误：<br>[Err] 1055 - Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column<br>‘information_schema.PROFILING.SEQ’ which is not functionally dependent on columns in GROUP BY clause;<br>this is incompatible with sql_mode=only_full_group_by</p>
+          <p>因以前使用的mysql版本都是5.7以下的，导致sql分组出现错误：<br>[Err] 1055 - Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column<br>‘information_schema.PROFILING.SEQ’ which is not functionally dependent on columns in GROUP BY clause;<br>this is incompatible with sql_mode=only_full_group_by<br>原因：5.7以后sql_mode=only_full_group_by,以前没有开启。</p>
 <h2 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h2><h3 id="5-7以前可以这么写-select的字段不一定要写入到group-by-后面。"><a href="#5-7以前可以这么写-select的字段不一定要写入到group-by-后面。" class="headerlink" title="5.7以前可以这么写,select的字段不一定要写入到group by 后面。"></a>5.7以前可以这么写,select的字段不一定要写入到group by 后面。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">select oc.id as categoryId,oc.`name` as categoryName,ouc.user_id as userId</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">from order_category oc</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user_category ouc ON ouc.category_id=oc.id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user ou ON  ou.id=ouc.user_id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">GROUP BY categoryId</span></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
