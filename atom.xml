@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://github.com/lgq0321?tab=repositories/"/>
-  <updated>2019-12-03T05:02:03.548Z</updated>
+  <updated>2019-12-04T04:24:35.009Z</updated>
   <id>https://github.com/lgq0321?tab=repositories/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mysql5.6级5.7注意事项。</title>
+    <link href="https://github.com/lgq0321?tab=repositories/2019/12/04/Mysql5.6%E7%BA%A75.7%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
+    <id>https://github.com/lgq0321?tab=repositories/2019/12/04/Mysql5.6%E7%BA%A75.7%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</id>
+    <published>2019-12-04T04:09:00.000Z</published>
+    <updated>2019-12-04T04:24:35.009Z</updated>
+    
+    <content type="html"><![CDATA[<p>因以前使用的mysql版本都是5.7以下的，导致sql分组出现错误：<br>[Err] 1055 - Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column<br>‘information_schema.PROFILING.SEQ’ which is not functionally dependent on columns in GROUP BY clause;<br>this is incompatible with sql_mode=only_full_group_by</p><h2 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h2><h3 id="5-7以前可以这么写-select的字段不一定要写入到group-by-后面。"><a href="#5-7以前可以这么写-select的字段不一定要写入到group-by-后面。" class="headerlink" title="5.7以前可以这么写,select的字段不一定要写入到group by 后面。"></a>5.7以前可以这么写,select的字段不一定要写入到group by 后面。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">select oc.id as categoryId,oc.`name` as categoryName,ouc.user_id as userId</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">from order_category oc</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user_category ouc ON ouc.category_id=oc.id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user ou ON  ou.id=ouc.user_id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">GROUP BY categoryId</span></pre></td></tr></table></figure><a id="more"></a><h3 id="5-7以后，select的字段一定要写入到group-by-后面，否则会报错。"><a href="#5-7以后，select的字段一定要写入到group-by-后面，否则会报错。" class="headerlink" title="5.7以后，select的字段一定要写入到group by 后面，否则会报错。"></a>5.7以后，select的字段一定要写入到group by 后面，否则会报错。</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">select oc.id as categoryId,oc.`name` as categoryName,ouc.user_id as userId</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">from order_category oc</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user_category ouc ON ouc.category_id=oc.id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user ou ON  ou.id=ouc.user_id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">GROUP BY categoryId,categoryName,userId</span></pre></td></tr></table></figure><p>注意：上面的sql会报错，因为ouc.user_id是不一样的。那么看一下不会报错的sql吧</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">select oc.id as categoryId,oc.`name` as categoryName,GROUP_CONCAT(ouc.user_id) as userIds</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">from order_category oc</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user_category ouc ON ouc.category_id=oc.id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user ou ON  ou.id=ouc.user_id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">GROUP BY categoryId,categoryName</span></pre></td></tr></table></figure><p>又或者，因为categoryId,categoryName 是一对一对的所以group by后面又可以省略掉。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">select oc.id as categoryId,oc.`name` as categoryName,GROUP_CONCAT(ouc.user_id) as userIds</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">from order_category oc</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user_category ouc ON ouc.category_id=oc.id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">LEFT JOIN order_user ou ON  ou.id=ouc.user_id</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">GROUP BY categoryId</span></pre></td></tr></table></figure><hr>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;因以前使用的mysql版本都是5.7以下的，导致sql分组出现错误：&lt;br&gt;[Err] 1055 - Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column&lt;br&gt;‘information_schema.PROFILING.SEQ’ which is not functionally dependent on columns in GROUP BY clause;&lt;br&gt;this is incompatible with sql_mode=only_full_group_by&lt;/p&gt;
+&lt;h2 id=&quot;分组&quot;&gt;&lt;a href=&quot;#分组&quot; class=&quot;headerlink&quot; title=&quot;分组&quot;&gt;&lt;/a&gt;分组&lt;/h2&gt;&lt;h3 id=&quot;5-7以前可以这么写-select的字段不一定要写入到group-by-后面。&quot;&gt;&lt;a href=&quot;#5-7以前可以这么写-select的字段不一定要写入到group-by-后面。&quot; class=&quot;headerlink&quot; title=&quot;5.7以前可以这么写,select的字段不一定要写入到group by 后面。&quot;&gt;&lt;/a&gt;5.7以前可以这么写,select的字段不一定要写入到group by 后面。&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;select oc.id as categoryId,oc.`name` as categoryName,ouc.user_id as userId&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;from order_category oc&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;LEFT JOIN order_user_category ouc ON ouc.category_id=oc.id&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;LEFT JOIN order_user ou ON  ou.id=ouc.user_id&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;GROUP BY categoryId&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="mysql" scheme="https://github.com/lgq0321?tab=repositories/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="https://github.com/lgq0321?tab=repositories/tags/mysql/"/>
+    
+      <category term="注意" scheme="https://github.com/lgq0321?tab=repositories/tags/%E6%B3%A8%E6%84%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux误删python导致yum不可用，删除重装方法。</title>
