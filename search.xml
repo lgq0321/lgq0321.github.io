@@ -18,6 +18,7 @@
 <li>spingboot启动类不需要加入</li>
 <li>pom文件中maven依赖一定要去掉</li>
 </ul>
+<hr>
 ]]></content>
       <categories>
         <category>Springboot</category>
