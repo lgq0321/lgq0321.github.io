@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Spring Boot自定义start代码</title>
-    <url>/2020/04/20/Spring%20Boot%E8%87%AA%E5%AE%9A%E4%B9%89start%E4%BB%A3%E7%A0%81/</url>
-    <content><![CDATA[<h2 id="Spring-Boot�Զ���start����"><a href="#Spring-Boot�Զ���start����" class="headerlink" title="Spring Boot�Զ���start����"></a>Spring Boot�Զ���start����</h2><p><img src="en-resource://database/481:0" alt="f099a210cbc135fe4cc89c8d54d95ebd.jpeg"></p>
+    <title>Spring Boot�Զ���start����</title>
+    <url>/2019/12/04/Spring%20Boot%E8%87%AA%E5%AE%9A%E4%B9%89start%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<p><img src="en-resource://database/481:0" alt="f099a210cbc135fe4cc89c8d54d95ebd.jpeg"></p>
 <h3 id="һ������springboot��L"><a href="#һ������springboot��L" class="headerlink" title="һ������springboot��Ŀ"></a>һ������springboot��Ŀ</h3><ul>
 <li>���аٶ���һ�¾ͺ��ˣ����մ���ṹ���£�</li>
 </ul>
@@ -19,6 +19,13 @@
 <li>pom�ļ���maven����һ��Ҫȥ��</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Springboot</category>
+      </categories>
+      <tags>
+        <tag>Springboot</tag>
+        <tag>�Զ���start</tag>
+      </tags>
   </entry>
   <entry>
     <title>Mysql5.6及5.7注意事项。</title>
